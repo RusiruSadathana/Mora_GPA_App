@@ -256,7 +256,10 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                     SizedBox(
                       height: 30,
                     ),
-                    GradingTable()
+                    AbsorbPointer(
+                      absorbing: true,
+                      child: GradingTable(),
+                    )
                   ],
                 ),
               ),

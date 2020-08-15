@@ -14,15 +14,23 @@ class GradingTable extends StatelessWidget {
           DataColumn(label: Text('Grade Point', style: ktableHeaderStyle)),
         ],
         rows: GradingCriteria.getGradingCriteria().map<DataRow>((Grade grade) {
-          return DataRow(cells: [
-            DataCell(Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(grade.grade, style: ktableDataStyle),
-            )),
-            DataCell(Center(
-              child: Text(grade.weight.toString(), style: ktableDataStyle),
-            ))
-          ]);
+          return DataRow(
+            cells: [
+              DataCell(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(grade.grade, style: ktableDataStyle),
+                  ),
+                  onTap: null),
+              DataCell(
+                  Center(
+                    child:
+                        Text(grade.weight.toString(), style: ktableDataStyle),
+                  ),
+                  onTap: null),
+            ],
+            onSelectChanged: null,
+          );
         }).toList(),
       ),
     );
