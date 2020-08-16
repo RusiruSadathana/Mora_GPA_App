@@ -24,6 +24,13 @@ InputDecoration kTextFormFieldDecoration = InputDecoration(
   ),
 );
 
+InputDecoration kCreditFormFieldDecoration = InputDecoration(
+  border: UnderlineInputBorder(
+    borderRadius: BorderRadius.circular(15.0),
+    borderSide: BorderSide(),
+  ),
+);
+
 var kalertStyle = AlertStyle(
   animationType: AnimationType.fromBottom,
   isCloseButton: true,

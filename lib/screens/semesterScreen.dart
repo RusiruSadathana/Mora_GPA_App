@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mora_gpa/classes/Controller.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/screens/addSubjectScreen.dart';
 import 'package:mora_gpa/widgets/subjectCard.dart';
 
 class SemesterScreen extends StatefulWidget {
+  SemesterScreen({this.semesterNo});
+  final int semesterNo;
   @override
   _SemesterScreenState createState() => _SemesterScreenState();
 }
 
 class _SemesterScreenState extends State<SemesterScreen> {
-  List subjects = [
-    {'name': 'Mathematics', 'grade': 'A+', 'credits': 3.0},
-    {'name': 'OOSD', 'grade': 'A', 'credits': 2.5},
-    {'name': 'Archi', 'grade': 'B-', 'credits': 2.0},
-    {'name': 'Mathematics', 'grade': 'A+', 'credits': 3.0},
-    {'name': 'OOSD', 'grade': 'A', 'credits': 2.5},
-    {'name': 'Archi', 'grade': 'B-', 'credits': 2.0},
-    {'name': 'Mathematics', 'grade': 'A+', 'credits': 3.0},
-    {'name': 'OOSD', 'grade': 'A', 'credits': 2.5},
-    {'name': 'Archi', 'grade': 'B-', 'credits': 2.0},
-  ];
+  var subjects = [];
+  _setupSubjects() {
+    subjects = Controller.getAllModules(widget.semesterNo);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setupSubjects();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +32,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          'Semester 4',
+          'Semester ' + widget.semesterNo.toString(),
           style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w600,
@@ -67,7 +70,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                     child: RaisedButton(
                                       color: klightBackgroundColor,
                                       textColor: kPrimaryColor,
-                                      elevation: 10,
+                                      elevation: 5,
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
                                               color: kPrimaryColor, width: 2),

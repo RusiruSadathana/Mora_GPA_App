@@ -66,7 +66,10 @@ class DropDownFormField extends FormField<dynamic> {
                         items: dataSource.map((item) {
                           return DropdownMenuItem<dynamic>(
                             value: item[valueField],
-                            child: Text(item[textField]),
+                            child: Text(
+                              item[textField],
+                              style: TextStyle(fontSize: 20),
+                            ),
                           );
                         }).toList(),
                       ),

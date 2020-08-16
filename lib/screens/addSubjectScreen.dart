@@ -1,7 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:mora_gpa/classes/Controller.dart';
+import 'package:mora_gpa/classes/Semesters.dart';
+import 'package:mora_gpa/classes/gradingCriteria.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/constants/styles.dart';
 import 'package:mora_gpa/widgets/Dropdownformfield.dart';
@@ -13,8 +17,37 @@ class AddSubjectScreen extends StatefulWidget {
 }
 
 class _AddSubjectScreenState extends State<AddSubjectScreen> {
-  int currentValue = 0;
-  int selectedValue;
+  String _subjectName;
+  int _semesterValue;
+  double _grade;
+  double _credits;
+  final formKey = new GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _subjectName = '';
+    _semesterValue = null;
+    _grade = null;
+    _credits = null;
+  }
+
+  _saveForm() {
+    var form = formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      Controller.addSubject({
+        'semester': _semesterValue,
+        'name': _subjectName,
+        'grade': _grade,
+        'credits': _credits,
+      });
+      Navigator.pop(
+        context,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,231 +69,198 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
           child: Container(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: AnimationConfiguration.toStaggeredList(
-                  duration: const Duration(milliseconds: 375),
-                  childAnimationBuilder: (widget) => SlideAnimation(
-                    horizontalOffset: 50.0,
-                    child: FadeInAnimation(
-                      child: widget,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: AnimationConfiguration.toStaggeredList(
+                    duration: const Duration(milliseconds: 375),
+                    childAnimationBuilder: (widget) => SlideAnimation(
+                      horizontalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: widget,
+                      ),
                     ),
+                    children: <Widget>[
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        style: TextStyle(fontSize: 20),
+                        maxLength: 30,
+                        decoration: kTextFormFieldDecoration,
+                        onChanged: (value) {
+                          setState(() {
+                            _subjectName = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value.length == 0) {
+                            return "Module Name cannot be empty";
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              child: DropDownFormField(
+                                titleText: 'Semester',
+                                hintText: 'Choose one',
+                                value: _semesterValue,
+                                textField: 'display',
+                                valueField: 'value',
+                                dataSource:
+                                    Semesters.getAllSemesters().map((semester) {
+                                  return {
+                                    'display': semester.semesterName,
+                                    'value': semester.semesterNumber,
+                                  };
+                                }).toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return "Semester cannot be empty";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _semesterValue = value;
+                                  });
+                                },
+                                onSaved: (value) {
+                                  setState(() {
+                                    _semesterValue = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Expanded(
+                            child: Container(
+                              child: DropDownFormField(
+                                titleText: 'Grade',
+                                hintText: 'Choose one',
+                                errorText: 'Please chose a grade',
+                                value: _grade,
+                                textField: 'display',
+                                valueField: 'value',
+                                dataSource: GradingCriteria.schema.map((grade) {
+                                  return {
+                                    'display': grade.grade,
+                                    'value': grade.weight,
+                                  };
+                                }).toList(),
+                                validator: (value) {
+                                  if (value == null) {
+                                    return "Grade cannot be empty";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onChanged: (value) {
+                                  setState(() {
+                                    _grade = value;
+                                  });
+                                },
+                                onSaved: (value) {
+                                  setState(() {
+                                    _grade = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'Credits',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 19,
+                              ),
+                            ),
+                            TextFormField(
+                              style: TextStyle(fontSize: 20),
+                              keyboardType: TextInputType.number,
+                              maxLength: 5,
+                              textAlign: TextAlign.center,
+                              decoration: kCreditFormFieldDecoration,
+                              onChanged: (value) {
+                                setState(() {
+                                  _credits = double.parse(value);
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null || value == '') {
+                                  return "Number of credits cannot be empty";
+                                } else {
+                                  try {
+                                    double val = double.parse(value);
+                                    return null;
+                                  } catch (e) {
+                                    return "Enter a valid amount of credits";
+                                  }
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                        color: kPrimaryColor,
+                        onPressed: () {
+                          _saveForm();
+                        },
+                        child: Text(
+                          'Add Module',
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Center(
+                        child: Text(
+                          'Grading Criteria',
+                          style: TextStyle(
+                            fontSize: 25,
+                            letterSpacing: 1.25,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      AbsorbPointer(
+                        absorbing: true,
+                        child: GradingTable(),
+                      )
+                    ],
                   ),
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      decoration: kTextFormFieldDecoration,
-                      onChanged: (value) {},
-                      validator: (val) {
-                        if (val.length == 0) {
-                          return "Module Name cannot be empty";
-                        } else {
-                          return null;
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            child: DropDownFormField(
-                              titleText: 'Semester',
-                              hintText: 'Please choose one',
-                              value: null,
-                              textField: 'display',
-                              dataSource: [
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                }
-                              ],
-                              onChanged: (value) {},
-                              onSaved: (value) {},
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-                          child: Container(
-                            child: DropDownFormField(
-                              titleText: 'Credits',
-                              hintText: 'Please choose one',
-                              value: null,
-                              textField: 'display',
-                              dataSource: [
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                }
-                              ],
-                              onChanged: (value) {},
-                              onSaved: (value) {},
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                            child: SizedBox(
-                          width: 15,
-                        )),
-                        Expanded(
-                          child: Container(
-                            child: DropDownFormField(
-                              titleText: 'Grade',
-                              hintText: 'Please choose one',
-                              value: null,
-                              textField: 'display',
-                              dataSource: [
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sem1",
-                                  "value": '2',
-                                },
-                                {
-                                  "display": "Sems 2",
-                                  "value": '2',
-                                }
-                              ],
-                              onChanged: (value) {},
-                              onSaved: (value) {},
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            width: 15,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    FlatButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
-                      color: kPrimaryColor,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Add Module',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Center(
-                      child: Text(
-                        'Grading Criteria',
-                        style: TextStyle(
-                          fontSize: 25,
-                          letterSpacing: 1.25,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    AbsorbPointer(
-                      absorbing: true,
-                      child: GradingTable(),
-                    )
-                  ],
                 ),
               ),
             ),
@@ -270,198 +270,3 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
     );
   }
 }
-
-//                  SizedBox(
-//                    height: 20,
-//                  ),
-//                  TextFormField(
-//                    decoration: kTextFormFieldDecoration,
-//                    onChanged: (value) {},
-//                    validator: (val) {
-//                      if (val.length == 0) {
-//                        return "Module Name cannot be empty";
-//                      } else {
-//                        return null;
-//                      }
-//                    },
-//                  ),
-//                  SizedBox(
-//                    height: 50,
-//                  ),
-//                  Row(
-//                    children: <Widget>[
-//                      Expanded(
-//                        child: Container(
-//                          child: DropDownFormField(
-//                            titleText: 'Semester',
-//                            hintText: 'Please choose one',
-//                            value: null,
-//                            textField: 'display',
-//                            dataSource: [
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              }
-//                            ],
-//                            onChanged: (value) {},
-//                            onSaved: (value) {},
-//                          ),
-//                        ),
-//                      ),
-//                      SizedBox(
-//                        width: 20,
-//                      ),
-//                      Expanded(
-//                        child: Container(
-//                          child: DropDownFormField(
-//                            titleText: 'Credits',
-//                            hintText: 'Please choose one',
-//                            value: null,
-//                            textField: 'display',
-//                            dataSource: [
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              }
-//                            ],
-//                            onChanged: (value) {},
-//                            onSaved: (value) {},
-//                          ),
-//                        ),
-//                      )
-//                    ],
-//                  ),
-//                  SizedBox(
-//                    height: 50,
-//                  ),
-//                  Row(
-//                    children: <Widget>[
-//                      Expanded(
-//                          child: SizedBox(
-//                        width: 15,
-//                      )),
-//                      Expanded(
-//                        child: Container(
-//                          child: DropDownFormField(
-//                            titleText: 'Grade',
-//                            hintText: 'Please choose one',
-//                            value: null,
-//                            textField: 'display',
-//                            dataSource: [
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sem1",
-//                                "value": '2',
-//                              },
-//                              {
-//                                "display": "Sems 2",
-//                                "value": '2',
-//                              }
-//                            ],
-//                            onChanged: (value) {},
-//                            onSaved: (value) {},
-//                          ),
-//                        ),
-//                      ),
-//                      Expanded(
-//                        child: SizedBox(
-//                          width: 15,
-//                        ),
-//                      )
-//                    ],
-//                  ),
-//                  SizedBox(
-//                    height: 70,
-//                  ),
-//                  FlatButton(
-//                    shape: RoundedRectangleBorder(
-//                        borderRadius: BorderRadius.circular(15)),
-//                    padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
-//                    color: kPrimaryColor,
-//                    onPressed: () {
-//                      Navigator.pop(context);
-//                    },
-//                    child: Text(
-//                      'Add Module',
-//                      style: TextStyle(color: Colors.white, fontSize: 25),
-//                    ),
-//                  ),

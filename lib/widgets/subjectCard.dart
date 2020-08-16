@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mora_gpa/classes/Controller.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/constants/styles.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -18,7 +19,7 @@ class SubjectCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       margin: EdgeInsets.all(10),
-      elevation: 10,
+      elevation: 5,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
         child: ListTile(
@@ -71,6 +72,7 @@ class SubjectCard extends StatelessWidget {
                                       color: Colors.white, fontSize: 18),
                                 ),
                                 onPressed: () {
+                                  Controller.deleteModule(subject['name']);
                                   Navigator.pop(context);
                                 },
                                 color: kPrimaryColor,

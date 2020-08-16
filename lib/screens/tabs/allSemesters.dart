@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:mora_gpa/classes/Controller.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/widgets/semesterGPACard.dart';
 
@@ -9,48 +10,24 @@ class AllSemesters extends StatefulWidget {
 }
 
 class _AllSemestersState extends State<AllSemesters> {
-  static const widLst = [
-    SemesterGPACard(
-      title: 'Semester 1',
-      gpa: 3.47,
-      semesterNo: 1,
-    ),
-    SemesterGPACard(
-      title: 'Semester 2',
-      gpa: 3.47,
-      semesterNo: 2,
-    ),
-    SemesterGPACard(
-      title: 'Semester 3',
-      gpa: 3.47,
-      semesterNo: 3,
-    ),
-    SemesterGPACard(
-      title: 'Semester 4',
-      gpa: 3.47,
-      semesterNo: 4,
-    ),
-    SemesterGPACard(
-      title: 'Semester 5',
-      gpa: 3.47,
-      semesterNo: 5,
-    ),
-    SemesterGPACard(
-      title: 'Semester 6',
-      gpa: 3.47,
-      semesterNo: 6,
-    ),
-    SemesterGPACard(
-      title: 'Semester 7',
-      gpa: 3.47,
-      semesterNo: 7,
-    ),
-    SemesterGPACard(
-      title: 'Semester 8',
-      gpa: 3.47,
-      semesterNo: 8,
-    ),
-  ];
+  static var widLst;
+
+  setupGPACards() {
+    widLst = Controller.getSemesterGPAs().map((semester) {
+      return SemesterGPACard(
+        title: semester['semesterName'],
+        semesterNo: semester['semesterNo'],
+        gpa: semester['gpa'],
+      );
+    }).toList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setupGPACards();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

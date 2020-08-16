@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mora_gpa/models/circularProgressBarPainter.dart';
+import 'package:mora_gpa/classes/circularProgressBarPainter.dart';
 
 class CircularProgressBar extends StatelessWidget {
   final Color backgroundColor;

@@ -18,4 +18,12 @@ class GradingCriteria {
   static getGradingCriteria() {
     return schema;
   }
+
+  static getGradeString(gradeValue) {
+    for (var i = 0; i < schema.length; i++) {
+      if (gradeValue == schema[i].weight) {
+        return schema[i].grade;
+      }
+    }
+  }
 }

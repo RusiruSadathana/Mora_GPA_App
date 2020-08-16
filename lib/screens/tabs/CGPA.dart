@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:mora_gpa/classes/Controller.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/widgets/circularCard.dart';
-
 
 class CGPA extends StatefulWidget {
   @override
@@ -12,16 +12,24 @@ class CGPA extends StatefulWidget {
 class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
   AnimationController animController;
   Animation animation;
-  double gpa = 3.67;
+  double cgpa;
+  double totalCredits;
+
+  _setupData() {
+    Map data = Controller.getCGPA();
+    cgpa = data['CGPA'];
+    totalCredits = data['totalCredits'];
+  }
 
   @override
   void initState() {
     super.initState();
+    _setupData();
     animController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1500),
     );
-    animation = Tween(begin: 0.0, end: (gpa / 4.2).toDouble()).animate(
+    animation = Tween(begin: 0.0, end: (cgpa / 4.2).toDouble()).animate(
       CurvedAnimation(
         parent: animController,
         curve: Curves.easeOut,
@@ -64,7 +72,7 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
                           height: 30,
                         ),
                         Text(
-                          'Cumulative Grade Points Average',
+                          'Current Grade Point Average',
                           style: TextStyle(fontSize: 20, letterSpacing: 1.25),
                         ),
                         SizedBox(
@@ -88,7 +96,7 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
                           height: 30,
                         ),
                         Text(
-                          150.toString(),
+                          totalCredits.toStringAsFixed(1),
                           style: TextStyle(fontSize: 45, letterSpacing: 1.25),
                         ),
 //                        TotalCreditsCard(

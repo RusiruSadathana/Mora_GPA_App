@@ -15,12 +15,14 @@ class SemesterGPACard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SemesterScreen(),
+            builder: (context) => SemesterScreen(
+              semesterNo: semesterNo,
+            ),
           ),
         ),
       },
       child: Card(
-        elevation: 10,
+        elevation: 5,
         color: klightBackgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
