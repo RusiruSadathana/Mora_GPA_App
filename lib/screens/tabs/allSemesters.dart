@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:mora_gpa/classes/Controller.dart';
 import 'package:mora_gpa/constants/colors.dart';
+import 'package:mora_gpa/database/Controller.dart';
 import 'package:mora_gpa/widgets/semesterGPACard.dart';
 
 class AllSemesters extends StatefulWidget {

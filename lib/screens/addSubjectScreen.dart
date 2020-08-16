@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:mora_gpa/classes/Controller.dart';
 import 'package:mora_gpa/classes/Semesters.dart';
 import 'package:mora_gpa/classes/gradingCriteria.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/constants/styles.dart';
+import 'package:mora_gpa/database/Controller.dart';
 import 'package:mora_gpa/widgets/Dropdownformfield.dart';
 import 'package:mora_gpa/widgets/gradingTable.dart';
 

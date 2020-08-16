@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mora_gpa/classes/Controller.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/constants/styles.dart';
+import 'package:mora_gpa/database/Controller.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SubjectCard extends StatelessWidget {
