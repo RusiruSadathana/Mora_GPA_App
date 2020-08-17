@@ -214,6 +214,9 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                                 } else {
                                   try {
                                     double val = double.parse(value);
+                                    if (val <= 0) {
+                                      return "Credits should be a positive value";
+                                    }
                                     return null;
                                   } catch (e) {
                                     return "Enter a valid amount of credits";
@@ -257,7 +260,10 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                       ),
                       AbsorbPointer(
                         absorbing: true,
-                        child: GradingTable(),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: GradingTable(),
+                        ),
                       )
                     ],
                   ),
