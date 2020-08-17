@@ -55,8 +55,14 @@ class DatabaseHelper {
   // Fetch Operation: Get all modules from database
   Future<List<Map<String, dynamic>>> getAllModulesMapList() async {
     Database db = await this.database;
-
     var result = await db.query(table, orderBy: '$colSemester ASC');
+    return result;
+  }
+
+  Future<List<Map<String, dynamic>>> getModulesBySemesterMapList(
+      int semesterNo) async {
+    Database db = await this.database;
+    var result = await db.rawQuery('SELECT * FROM $table WHERE id=$semesterNo');
     return result;
   }
 
@@ -68,24 +74,27 @@ class DatabaseHelper {
   }
 
   // Delete Operation
-  Future<int> deleteSubject(String id) async {
+  Future<int> deleteModule(String id) async {
     var db = await this.database;
     int result = await db.rawDelete('DELETE FROM $table WHERE $colId = "$id"');
-    return result;
-  }
-
-  // Get number of subjects in database each day
-  Future<int> getModulesBySemester(int semesterNo) async {
-    Database db = await this.database;
-    List<Map<String, dynamic>> x =
-        await db.rawQuery('SELECT * FROM $table WHERE id=$semesterNo');
-    int result = Sqflite.firstIntValue(x);
     return result;
   }
 
   // Get the 'Map List' [ List<Map> ] and convert it to 'Module List' [ List<Module> ]
   Future<List<Module>> getModuleList() async {
     var moduleMapList = await getAllModulesMapList();
+    int count = moduleMapList.length;
+    List<Module> moduleList = List<Module>();
+    // For loop to create a 'module List' from a 'Map List'
+    for (int i = 0; i < count; i++) {
+      moduleList.add(Module.fromMapObject(moduleMapList[i]));
+    }
+
+    return moduleList;
+  }
+
+  Future<List<Module>> getModuleBySemesterList(int semesterNo) async {
+    var moduleMapList = await getModulesBySemesterMapList(semesterNo);
     int count = moduleMapList.length;
     List<Module> moduleList = List<Module>();
     // For loop to create a 'module List' from a 'Map List'

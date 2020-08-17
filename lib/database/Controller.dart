@@ -1,34 +1,31 @@
 import 'package:mora_gpa/classes/Semesters.dart';
 import 'package:mora_gpa/classes/gradingCriteria.dart';
+import 'package:mora_gpa/database/Model.dart';
+import 'package:mora_gpa/database/Module.dart';
 
 class Controller {
+  //static DatabaseHelper helper = DatabaseHelper();
   static addSubject(Map<String, dynamic> data) {
-    print(data);
+    Module module =
+        Module(data['semester'], data['name'], data['grade'], data['credits']);
+    //await helper.insertModule(module);
   }
 
   static getAllModules(semesterNo) {
-    //this should be taken from database
-    var subjects = [
-      {'name': 'Mathematics', 'grade': 4.0, 'credits': 3.0},
-      {'name': 'OOSD', 'grade': 4.2, 'credits': 2.5},
-      {'name': 'Archi', 'grade': 3.7, 'credits': 2.0},
-      {'name': 'Mathematics', 'grade': 3.3, 'credits': 3.0},
-      {'name': 'OOSD', 'grade': 3.0, 'credits': 2.5},
-      {'name': 'Archi', 'grade': 2.7, 'credits': 2.0},
-      {'name': 'Mathematics', 'grade': 2.3, 'credits': 3.0},
-      {'name': 'OOSD', 'grade': 2.0, 'credits': 2.5},
-      {'name': 'Archi', 'grade': 0.0, 'credits': 2.0},
-    ];
+    //dynamic modules = await helper.getModuleBySemesterList(semesterNo);
+    var modules = [];
     var result = [];
-    for (var i = 0; i < subjects.length; i++) {
+    for (var i = 0; i < modules.length; i++) {
       result.add(
         {
-          'name': subjects[i]['name'],
-          'grade': GradingCriteria.getGradeString(subjects[i]['grade']),
-          'credits': subjects[i]['credits'],
+          'id': modules[i].id,
+          'name': modules[i].name,
+          'grade': GradingCriteria.getGradeString(modules[i].grade),
+          'credits': modules[i].credits,
         },
       );
     }
+
     return result;
   }
 
@@ -37,40 +34,48 @@ class Controller {
     var result = [];
     for (var i = 0; i < semesters.length; i++) {
       //get statement for getting subjects of each semester
+      //dynamic modules = await getAllModules(i+1);
+      var modules = [];
+      double weightedSum = 0;
+      double totCredits = 0;
+      for (var i = 0; i < modules.length; i++) {
+        double grade = (modules[i].grade);
+        double credits = (modules[i].credits);
+        weightedSum += grade * credits;
+        totCredits += credits;
+      }
+      totCredits = (totCredits == 0) ? 1 : totCredits;
+      double SGPA = (weightedSum / totCredits);
       result.add({
         'semesterName': semesters[i].semesterName,
         'semesterNo': semesters[i].semesterNumber,
-        'gpa': 4.15,
+        'gpa': SGPA,
       });
     }
     return result;
   }
 
   static getCGPA() {
-    var allModules = [
-      {'name': 'Mathematics', 'grade': 4.0, 'credits': 3.0},
-      {'name': 'OOSD', 'grade': 4.2, 'credits': 2.5},
-      {'name': 'Archi', 'grade': 3.7, 'credits': 2.0},
-      {'name': 'Mathematics', 'grade': 3.3, 'credits': 3.0},
-      {'name': 'OOSD', 'grade': 3.0, 'credits': 2.5},
-      {'name': 'Archi', 'grade': 2.7, 'credits': 2.0},
-      {'name': 'Mathematics', 'grade': 2.3, 'credits': 3.0},
-      {'name': 'OOSD', 'grade': 2.0, 'credits': 2.5},
-      {'name': 'Archi', 'grade': 0.0, 'credits': 2.0},
-    ];
-    double weightedSum = 0;
-    double totCredits = 0;
-    for (var i = 0; i < allModules.length; i++) {
-      double grade = (allModules[i]['grade']);
-      double credits = (allModules[i]['credits']);
-      weightedSum += grade * credits;
-      totCredits += credits;
+    //dynamic allModules = await helper.getModuleList();
+    var allModules = [];
+    if (allModules.length == 0) {
+      double weightedSum = 0;
+      double totCredits = 0;
+      for (var i = 0; i < allModules.length; i++) {
+        double grade = (allModules[i].grade);
+        double credits = (allModules[i].credits);
+        weightedSum += grade * credits;
+        totCredits += credits;
+      }
+      totCredits = (totCredits == 0) ? 1 : totCredits;
+      double CGPA = (weightedSum / totCredits);
+      return {'CGPA': CGPA, 'totalCredits': totCredits};
+    } else {
+      return {'CGPA': 0, 'totalCredits': 0};
     }
-    double CGPA = (weightedSum / totCredits);
-    return {'CGPA': CGPA, 'totalCredits': totCredits};
   }
 
-  static deleteModule(data) {
-    print(data);
+  static deleteModule(String id) {
+    //await helper.deleteModule(id);
   }
 }
