@@ -62,11 +62,12 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getModulesBySemesterMapList(
       int semesterNo) async {
     Database db = await this.database;
-    var result = await db.rawQuery('SELECT * FROM $table WHERE id=$semesterNo');
+    var result = await db
+        .rawQuery('SELECT * FROM $table WHERE $colSemester=$semesterNo');
     return result;
   }
 
-  // Insert Operation day will be the table Name
+  // Insert Operation modules will be the table Name
   Future<int> insertModule(Module module) async {
     Database db = await this.database;
     var result = await db.insert(table, module.toMap());
@@ -101,7 +102,6 @@ class DatabaseHelper {
     for (int i = 0; i < count; i++) {
       moduleList.add(Module.fromMapObject(moduleMapList[i]));
     }
-
     return moduleList;
   }
 }

@@ -8,10 +8,14 @@ import 'package:mora_gpa/classes/gradingCriteria.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/constants/styles.dart';
 import 'package:mora_gpa/database/Controller.dart';
+import 'package:mora_gpa/screens/HomeScreen.dart';
 import 'package:mora_gpa/widgets/Dropdownformfield.dart';
 import 'package:mora_gpa/widgets/gradingTable.dart';
 
 class AddSubjectScreen extends StatefulWidget {
+  AddSubjectScreen({this.semester, this.currentIndex});
+  final int semester;
+  final int currentIndex;
   @override
   _AddSubjectScreenState createState() => _AddSubjectScreenState();
 }
@@ -37,14 +41,21 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
     if (form.validate()) {
       form.save();
       Controller.addSubject({
-        'semester': _semesterValue,
+        'semester': (_semesterValue != null) ? _semesterValue : widget.semester,
         'name': _subjectName,
         'grade': _grade,
         'credits': _credits,
       });
-      Navigator.pop(
-        context,
-      );
+      (widget.semester != null)
+          ? Navigator.pop(context, false)
+          : Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeScreen(
+                  initIndex: widget.currentIndex,
+                ),
+              ),
+            );
     }
   }
 
@@ -53,6 +64,19 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
     return Scaffold(
       backgroundColor: kbackgroundColor,
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => (widget.semester != null)
+              ? Navigator.pop(context, false)
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(
+                      initIndex: widget.currentIndex,
+                    ),
+                  ),
+                ),
+        ),
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           'Add Module',
@@ -109,37 +133,59 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                         children: <Widget>[
                           Expanded(
                             child: Container(
-                              child: DropDownFormField(
-                                titleText: 'Semester',
-                                hintText: 'Choose one',
-                                value: _semesterValue,
-                                textField: 'display',
-                                valueField: 'value',
-                                dataSource:
-                                    Semesters.getAllSemesters().map((semester) {
-                                  return {
-                                    'display': semester.semesterName,
-                                    'value': semester.semesterNumber,
-                                  };
-                                }).toList(),
-                                validator: (value) {
-                                  if (value == null) {
-                                    return "Semester cannot be empty";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                onChanged: (value) {
-                                  setState(() {
-                                    _semesterValue = value;
-                                  });
-                                },
-                                onSaved: (value) {
-                                  setState(() {
-                                    _semesterValue = value;
-                                  });
-                                },
-                              ),
+                              child: (widget.semester == null)
+                                  ? DropDownFormField(
+                                      titleText: 'Semester',
+                                      hintText: 'Choose one',
+                                      value: _semesterValue,
+                                      textField: 'display',
+                                      valueField: 'value',
+                                      dataSource: Semesters.getAllSemesters()
+                                          .map((semester) {
+                                        return {
+                                          'display': semester.semesterName,
+                                          'value': semester.semesterNumber,
+                                        };
+                                      }).toList(),
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return "Semester cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _semesterValue = value;
+                                        });
+                                      },
+                                      onSaved: (value) {
+                                        setState(() {
+                                          _semesterValue = value;
+                                        });
+                                      },
+                                    )
+                                  : Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Semester',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text(
+                                          widget.semester.toString(),
+                                          style: TextStyle(
+                                            fontSize: 22.5,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                             ),
                           ),
                           SizedBox(

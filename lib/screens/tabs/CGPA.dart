@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:mora_gpa/constants/colors.dart';
-import 'package:mora_gpa/database/Controller.dart';
 import 'package:mora_gpa/widgets/circularCard.dart';
 
 class CGPA extends StatefulWidget {
+  final dynamic data;
+
+  CGPA({Key key, @required this.data}) : super(key: key);
   @override
   _CGPAState createState() => _CGPAState();
 }
@@ -16,9 +18,8 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
   double totalCredits;
 
   _setupData() {
-    Map data = Controller.getCGPA();
-    cgpa = data['CGPA'];
-    totalCredits = data['totalCredits'];
+    cgpa = widget.data['CGPA'].toDouble();
+    totalCredits = widget.data['totalCredits'].toDouble();
   }
 
   @override
@@ -97,11 +98,11 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
                         ),
                         Text(
                           totalCredits.toStringAsFixed(1),
-                          style: TextStyle(fontSize: 45, letterSpacing: 1.25),
+                          style: TextStyle(
+                            fontSize: 45,
+                            letterSpacing: 1.25,
+                          ),
                         ),
-//                        TotalCreditsCard(
-//                          totalCredits: 245,
-//                        ),
                       ],
                     ),
                   ),

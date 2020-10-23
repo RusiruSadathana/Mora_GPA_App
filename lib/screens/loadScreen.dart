@@ -54,7 +54,9 @@ class _LoadScreenState extends State<LoadScreen> {
       context,
       new PageRouteBuilder(
         opaque: true,
-        pageBuilder: (context, _, __) => HomeScreen(),
+        pageBuilder: (context, _, __) => HomeScreen(
+          initIndex: 0,
+        ),
         transitionDuration: const Duration(seconds: 1),
         transitionsBuilder: (context, anim1, anim2, child) {
           return new FadeTransition(

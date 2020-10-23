@@ -4,16 +4,15 @@ import 'package:mora_gpa/database/Model.dart';
 import 'package:mora_gpa/database/Module.dart';
 
 class Controller {
-  //static DatabaseHelper helper = DatabaseHelper();
-  static addSubject(Map<String, dynamic> data) {
+  static DatabaseHelper helper = DatabaseHelper();
+  static addSubject(Map<String, dynamic> data) async {
     Module module =
         Module(data['semester'], data['name'], data['grade'], data['credits']);
-    //await helper.insertModule(module);
+    await helper.insertModule(module);
   }
 
-  static getAllModules(semesterNo) {
-    //dynamic modules = await helper.getModuleBySemesterList(semesterNo);
-    var modules = [];
+  static getAllModules(semesterNo) async {
+    dynamic modules = await helper.getModuleBySemesterList(semesterNo);
     var result = [];
     for (var i = 0; i < modules.length; i++) {
       result.add(
@@ -25,22 +24,21 @@ class Controller {
         },
       );
     }
-
     return result;
   }
 
-  static getSemesterGPAs() {
+  static getSemesterGPAs() async {
     var semesters = Semesters.getAllSemesters();
     var result = [];
+
     for (var i = 0; i < semesters.length; i++) {
       //get statement for getting subjects of each semester
-      //dynamic modules = await getAllModules(i+1);
-      var modules = [];
+      dynamic modules = await helper.getModuleBySemesterList(i + 1);
       double weightedSum = 0;
       double totCredits = 0;
-      for (var i = 0; i < modules.length; i++) {
-        double grade = (modules[i].grade);
-        double credits = (modules[i].credits);
+      for (var j = 0; j < modules.length; j++) {
+        double grade = (modules[j].grade);
+        double credits = (modules[j].credits);
         weightedSum += grade * credits;
         totCredits += credits;
       }
@@ -55,10 +53,9 @@ class Controller {
     return result;
   }
 
-  static getCGPA() {
-    //dynamic allModules = await helper.getModuleList();
-    var allModules = [];
-    if (allModules.length == 0) {
+  static getCGPA() async {
+    dynamic allModules = await helper.getModuleList();
+    if (allModules.length != 0) {
       double weightedSum = 0;
       double totCredits = 0;
       for (var i = 0; i < allModules.length; i++) {
@@ -75,7 +72,7 @@ class Controller {
     }
   }
 
-  static deleteModule(String id) {
-    //await helper.deleteModule(id);
+  static deleteModule(String id) async {
+    await helper.deleteModule(id);
   }
 }

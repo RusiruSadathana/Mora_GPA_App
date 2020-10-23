@@ -8,9 +8,11 @@ import 'package:mora_gpa/database/Controller.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SubjectCard extends StatelessWidget {
-  SubjectCard({this.subject});
+  SubjectCard({this.subject, this.semester, this.onDelete});
 
   final Map subject;
+  final int semester;
+  final Function onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,8 @@ class SubjectCard extends StatelessWidget {
                                       color: Colors.white, fontSize: 18),
                                 ),
                                 onPressed: () {
-                                  Controller.deleteModule(subject['name']);
+                                  Controller.deleteModule(subject['id']);
+                                  onDelete();
                                   Navigator.pop(context);
                                 },
                                 color: kPrimaryColor,

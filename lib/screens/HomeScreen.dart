@@ -8,6 +8,8 @@ import 'package:mora_gpa/constants/colors.dart';
 import 'addSubjectScreen.dart';
 
 class HomeScreen extends StatefulWidget {
+  HomeScreen({this.initIndex});
+  int initIndex;
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -19,6 +21,10 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.initIndex != null) {
+      _currentIndex = widget.initIndex;
+      widget.initIndex = null;
+    }
     return Scaffold(
       backgroundColor: kbackgroundColor,
       appBar: AppBar(
@@ -33,7 +39,18 @@ class _HomeScreenState extends State<HomeScreen>
         centerTitle: true,
       ),
       body: SafeArea(
-        child: TabNavigator.provideTab(tabs[_currentIndex]),
+        child: FutureBuilder(
+            future: TabNavigator.provideTab(tabs[_currentIndex]),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data;
+              } else {
+                return Center(
+                    child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                ));
+              }
+            }),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPrimaryColor,
@@ -42,11 +59,14 @@ class _HomeScreenState extends State<HomeScreen>
           size: 30,
           color: kbackgroundColor,
         ),
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          dynamic result = await Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => AddSubjectScreen(),
+              builder: (context) => AddSubjectScreen(
+                semester: null,
+                currentIndex: _currentIndex,
+              ),
             ),
           );
         },

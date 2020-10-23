@@ -38,7 +38,7 @@ class SemesterGPACard extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                gpa.toString(),
+                gpa.toStringAsFixed(2),
                 style: TextStyle(
                   fontSize: 40,
                 ),
