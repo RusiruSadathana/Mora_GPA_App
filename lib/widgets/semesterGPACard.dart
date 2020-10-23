@@ -30,20 +30,24 @@ class SemesterGPACard extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: <Widget>[
-              Text(
-                title,
-                style: TextStyle(fontSize: 20, color: kPrimaryColor),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 20, color: kPrimaryColor),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    gpa.toStringAsFixed(2),
+                    style: TextStyle(
+                      fontSize: 30,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              Text(
-                gpa.toStringAsFixed(2),
-                style: TextStyle(
-                  fontSize: 40,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

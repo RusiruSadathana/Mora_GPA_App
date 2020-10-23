@@ -49,7 +49,7 @@ class _AllSemestersState extends State<AllSemesters> {
                         child: GridView.builder(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 1.35,
+                            childAspectRatio: 1.2,
                             crossAxisCount: 2,
                             crossAxisSpacing: 5.0,
                             mainAxisSpacing: 5.0,
