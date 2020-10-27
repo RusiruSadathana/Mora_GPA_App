@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:mora_gpa/classes/ScreenSize.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/database/Controller.dart';
 import 'package:mora_gpa/widgets/semesterGPACard.dart';
@@ -51,8 +52,10 @@ class _AllSemestersState extends State<AllSemesters> {
                               SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: 1.2,
                             crossAxisCount: 2,
-                            crossAxisSpacing: 5.0,
-                            mainAxisSpacing: 5.0,
+                            crossAxisSpacing:
+                                ScreenSize.getWidth(context) * .011,
+                            mainAxisSpacing:
+                                ScreenSize.getWidth(context) * .011,
                           ),
                           itemCount: widLst.length,
                           itemBuilder: (BuildContext context, int index) {

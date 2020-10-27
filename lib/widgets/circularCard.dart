@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mora_gpa/classes/ScreenSize.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/widgets/circularProgressBar.dart';
 
@@ -11,7 +12,9 @@ class CircularCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minWidth: 300, maxWidth: 300),
+      constraints: BoxConstraints(
+          minWidth: ScreenSize.getMinimumSize(context) / 1.3,
+          maxWidth: ScreenSize.getMinimumSize(context) / 1.3),
       child: Card(
         color: klightBackgroundColor,
         elevation: 5,
@@ -28,14 +31,14 @@ class CircularCard extends StatelessWidget {
                 Text(
                   (currentValue).toStringAsFixed(2),
                   style: TextStyle(
-                    fontSize: 60,
+                    fontSize: ScreenSize.getMinimumSize(context) / 6,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: ScreenSize.getMinimumSize(context) / 16,
                   ),
                 ),
               ],

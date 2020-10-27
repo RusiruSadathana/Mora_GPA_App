@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mora_gpa/classes/ScreenSize.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/database/Controller.dart';
 import 'package:mora_gpa/screens/addSubjectScreen.dart';
@@ -38,7 +39,7 @@ class _SemesterScreenState extends State<SemesterScreen> {
                 title: Text(
                   'Semester ' + widget.semesterNo.toString(),
                   style: TextStyle(
-                      fontSize: 30,
+                      fontSize: ScreenSize.getMinimumSize(context) * .06944,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 1.5,
                       color: Colors.black),
@@ -104,15 +105,21 @@ class _SemesterScreenState extends State<SemesterScreen> {
                                                 children: <Widget>[
                                                   FaIcon(
                                                     FontAwesomeIcons.plusSquare,
-                                                    size: 28,
+                                                    size: ScreenSize
+                                                            .getMinimumSize(
+                                                                context) *
+                                                        .064,
                                                   ),
                                                   SizedBox(
                                                     width: 13,
                                                   ),
                                                   Text(
                                                     'Add New Module',
-                                                    style:
-                                                        TextStyle(fontSize: 25),
+                                                    style: TextStyle(
+                                                        fontSize: ScreenSize
+                                                                .getMinimumSize(
+                                                                    context) *
+                                                            .057),
                                                   ),
                                                 ],
                                               ),

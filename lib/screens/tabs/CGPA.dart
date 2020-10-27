@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:mora_gpa/classes/ScreenSize.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/widgets/circularCard.dart';
 
@@ -70,14 +71,17 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
                       ),
                       children: <Widget>[
                         SizedBox(
-                          height: 30,
+                          height: ScreenSize.getHeight(context) * .024,
                         ),
                         Text(
                           'Current Grade Point Average',
-                          style: TextStyle(fontSize: 20, letterSpacing: 1.25),
+                          style: TextStyle(
+                              fontSize:
+                                  ScreenSize.getMinimumSize(context) * .057,
+                              letterSpacing: 1.25),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: ScreenSize.getHeight(context) * 0.049,
                         ),
                         Center(
                           child: CircularCard(
@@ -87,21 +91,27 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: ScreenSize.getHeight(context) * 0.049,
                         ),
                         Text(
                           'Total Credits',
-                          style: TextStyle(fontSize: 20, letterSpacing: 1.25),
+                          style: TextStyle(
+                              fontSize:
+                                  ScreenSize.getMinimumSize(context) * .066,
+                              letterSpacing: 1.25),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: ScreenSize.getHeight(context) * .010,
                         ),
                         Text(
                           totalCredits.toStringAsFixed(1),
                           style: TextStyle(
-                            fontSize: 45,
+                            fontSize: ScreenSize.getMinimumSize(context) * .105,
                             letterSpacing: 1.25,
                           ),
+                        ),
+                        SizedBox(
+                          height: ScreenSize.getHeight(context) * 0.061,
                         ),
                       ],
                     ),

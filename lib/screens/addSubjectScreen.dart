@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:mora_gpa/classes/ScreenSize.dart';
 import 'package:mora_gpa/classes/Semesters.dart';
 import 'package:mora_gpa/classes/gradingCriteria.dart';
 import 'package:mora_gpa/constants/colors.dart';
@@ -81,7 +82,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
         title: Text(
           'Add Module',
           style: TextStyle(
-              fontSize: 30,
+              fontSize: ScreenSize.getMinimumSize(context) * .06944,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.5,
               color: Colors.black),
@@ -111,6 +112,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                       ),
                       TextFormField(
                         style: TextStyle(fontSize: 20),
+                        textCapitalization: TextCapitalization.words,
                         maxLength: 30,
                         decoration: kTextFormFieldDecoration,
                         onChanged: (value) {
@@ -240,7 +242,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                               'Credits',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 19,
+                                fontSize: 18,
                               ),
                             ),
                             TextFormField(
@@ -286,7 +288,7 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                         },
                         child: Text(
                           'Add Module',
-                          style: TextStyle(color: Colors.white, fontSize: 25),
+                          style: TextStyle(color: Colors.white, fontSize: 22.5),
                         ),
                       ),
                       SizedBox(
@@ -304,11 +306,13 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                       SizedBox(
                         height: 30,
                       ),
-                      AbsorbPointer(
-                        absorbing: true,
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: GradingTable(),
+                      Center(
+                        child: AbsorbPointer(
+                          absorbing: true,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: GradingTable(),
+                          ),
                         ),
                       )
                     ],

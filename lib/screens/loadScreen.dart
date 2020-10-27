@@ -28,8 +28,8 @@ class _LoadScreenState extends State<LoadScreen> {
           children: <Widget>[
             Image.asset(
               'assets/logo.png',
-              width: 250,
-              height: 250,
+              width: 200,
+              height: 200,
             ),
             Center(
               child: FadeAnimatedTextKit(
@@ -38,7 +38,7 @@ class _LoadScreenState extends State<LoadScreen> {
                 text: ['Mora GPA'],
                 textStyle: TextStyle(
                     color: kPrimaryColor,
-                    fontSize: 55.0,
+                    fontSize: 45.0,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.25),
               ),

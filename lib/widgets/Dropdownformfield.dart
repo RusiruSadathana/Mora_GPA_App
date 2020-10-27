@@ -44,7 +44,7 @@ class DropDownFormField extends FormField<dynamic> {
                       labelText: titleText,
                       labelStyle: TextStyle(
                         color: Colors.black,
-                        fontSize: 25,
+                        fontSize: 22,
                       ),
                       filled: filled,
                     ),
@@ -56,7 +56,8 @@ class DropDownFormField extends FormField<dynamic> {
                         },
                         hint: Text(
                           hintText,
-                          style: TextStyle(color: Colors.grey.shade500),
+                          style: TextStyle(
+                              color: Colors.grey.shade500, fontSize: 12),
                         ),
                         value: value == '' ? null : value,
                         onChanged: (dynamic newValue) {

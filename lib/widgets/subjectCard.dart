@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mora_gpa/classes/ScreenSize.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/constants/styles.dart';
 import 'package:mora_gpa/database/Controller.dart';
@@ -28,7 +29,7 @@ class SubjectCard extends StatelessWidget {
           title: Text(
             subject['name'],
             style: TextStyle(
-              fontSize: 30,
+              fontSize: ScreenSize.getMinimumSize(context) * .06944,
               letterSpacing: 1.25,
               fontWeight: FontWeight.w500,
             ),
@@ -41,22 +42,24 @@ class SubjectCard extends StatelessWidget {
               ),
               Text(
                 'Grade   :   ' + subject['grade'],
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                    fontSize: ScreenSize.getMinimumSize(context) * .046),
               ),
               SizedBox(
-                height: 10,
+                height: ScreenSize.getHeight(context) * .012,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     'Credits :   ' + subject['credits'].toString(),
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(
+                        fontSize: ScreenSize.getMinimumSize(context) * .046),
                   ),
                   IconButton(
                       icon: FaIcon(
                         FontAwesomeIcons.trashAlt,
-                        size: 25,
+                        size: ScreenSize.getMinimumSize(context) * .057,
                         color: kPrimaryColor,
                       ),
                       onPressed: () {

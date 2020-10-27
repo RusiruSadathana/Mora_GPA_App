@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mora_gpa/classes/ScreenSize.dart';
 import 'package:mora_gpa/constants/colors.dart';
 import 'package:mora_gpa/screens/semesterScreen.dart';
 
@@ -27,7 +28,8 @@ class SemesterGPACard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
-        margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+        margin: EdgeInsets.fromLTRB(ScreenSize.getMinimumSize(context) * .0347,
+            10, ScreenSize.getMinimumSize(context) * .0347, 10),
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
@@ -36,13 +38,15 @@ class SemesterGPACard extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     title,
-                    style: TextStyle(fontSize: 20, color: kPrimaryColor),
+                    style: TextStyle(
+                        fontSize: ScreenSize.getMinimumSize(context) * .052,
+                        color: kPrimaryColor),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: ScreenSize.getHeight(context) * .01),
                   Text(
                     gpa.toStringAsFixed(2),
                     style: TextStyle(
-                      fontSize: 30,
+                      fontSize: ScreenSize.getMinimumSize(context) * .081,
                     ),
                   ),
                 ],

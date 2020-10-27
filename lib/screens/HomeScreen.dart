@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mora_gpa/Routing/destination.dart';
 import 'package:mora_gpa/Routing/destinations.dart';
 import 'package:mora_gpa/Routing/tabProvider.dart';
+import 'package:mora_gpa/classes/ScreenSize.dart';
 import 'package:mora_gpa/constants/colors.dart';
 
 import 'addSubjectScreen.dart';
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen>
         title: Text(
           'Mora GPA',
           style: TextStyle(
-              fontSize: 30,
+              fontSize: ScreenSize.getMinimumSize(context) * .06944,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.5,
               color: Colors.black),
@@ -52,32 +53,36 @@ class _HomeScreenState extends State<HomeScreen>
               }
             }),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kPrimaryColor,
-        child: FaIcon(
-          FontAwesomeIcons.plus,
-          size: 30,
-          color: kbackgroundColor,
-        ),
-        onPressed: () async {
-          dynamic result = await Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AddSubjectScreen(
-                semester: null,
-                currentIndex: _currentIndex,
+      floatingActionButton: Container(
+        height: ScreenSize.getMinimumSize(context) * .12,
+        width: ScreenSize.getMinimumSize(context) * .12,
+        child: FloatingActionButton(
+          backgroundColor: kPrimaryColor,
+          child: FaIcon(
+            FontAwesomeIcons.plus,
+            size: ScreenSize.getMinimumSize(context) * .06944,
+            color: kbackgroundColor,
+          ),
+          onPressed: () async {
+            dynamic result = await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddSubjectScreen(
+                  semester: null,
+                  currentIndex: _currentIndex,
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
-        notchMargin: 10,
+        notchMargin: ScreenSize.getMinimumSize(context) * .0231,
         clipBehavior: Clip.antiAlias,
         child: SizedBox(
-          height: 60,
+          height: ScreenSize.getMinimumSize(context) * .138,
           child: BottomNavigationBar(
             backgroundColor: klightBackgroundColor,
             currentIndex: _currentIndex,
@@ -92,9 +97,12 @@ class _HomeScreenState extends State<HomeScreen>
               return BottomNavigationBarItem(
                   icon: FaIcon(
                     destination.icon,
+                    size: ScreenSize.getMinimumSize(context) * .048,
                   ),
                   title: Text(
                     destination.title,
+                    style: TextStyle(
+                        fontSize: ScreenSize.getMinimumSize(context) * .032),
                   ));
             }).toList(),
           ),
