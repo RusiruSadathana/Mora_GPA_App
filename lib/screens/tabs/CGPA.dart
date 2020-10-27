@@ -94,7 +94,7 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
                           height: ScreenSize.getHeight(context) * 0.049,
                         ),
                         Text(
-                          'Total Credits',
+                          'Total GPA Credits',
                           style: TextStyle(
                               fontSize:
                                   ScreenSize.getMinimumSize(context) * .066,
