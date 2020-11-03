@@ -67,7 +67,7 @@ class SubjectCard extends StatelessWidget {
                             context: context,
                             title: "Delete !",
                             desc:
-                                "Are you sure you want to delete this subject?",
+                                "Are you sure you want to delete this module?",
                             style: kalertStyle,
                             buttons: [
                               DialogButton(

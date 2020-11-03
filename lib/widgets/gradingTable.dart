@@ -34,7 +34,7 @@ class GradingTable extends StatelessWidget {
               DataCell(
                   Padding(
                     padding: EdgeInsets.only(
-                        left: ScreenSize.getMinimumSize(context) * .0462),
+                        left: ScreenSize.getMinimumSize(context) * .040),
                     child: Text(
                       grade.grade,
                       style: TextStyle(
