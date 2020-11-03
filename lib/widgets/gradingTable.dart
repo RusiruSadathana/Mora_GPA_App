@@ -15,7 +15,7 @@ class GradingTable extends StatelessWidget {
             'Grade',
             style: TextStyle(
               fontSize: ScreenSize.getMinimumSize(context) * .046,
-              letterSpacing: 2,
+              letterSpacing: 1.25,
             ),
           )),
           DataColumn(
@@ -23,7 +23,7 @@ class GradingTable extends StatelessWidget {
               'Grade Point',
               style: TextStyle(
                 fontSize: ScreenSize.getMinimumSize(context) * .046,
-                letterSpacing: 2,
+                letterSpacing: 1.25,
               ),
             ),
           ),

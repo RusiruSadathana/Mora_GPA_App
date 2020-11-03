@@ -296,9 +296,9 @@ class _AddSubjectScreenState extends State<AddSubjectScreen> {
                       ),
                       Center(
                         child: Text(
-                          'Grading Criteria',
+                          'Grade Point System',
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: ScreenSize.getMinimumSize(context) * .053,
                             letterSpacing: 1.25,
                           ),
                         ),
