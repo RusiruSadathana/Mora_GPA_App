@@ -7,9 +7,13 @@ The app is available on google play store and you can get the app from [HERE](ht
 
 Simply you need to add modules for each semester and the app will calculate the GPA for you, of course without the need of the internet. The app will calculate the current grade point average (CGPA) as well as the semester grade point averages (SGPA). You can view the modules under a semester by tapping on the SGPA card.
 
-## Screenshots and Recordings
 
 <img src="/readMeAssets/Screen-Recording.gif" width="250">
+
+
+
+## Screenshots
+
 <img src="/readMeAssets/Screenshot1.jpg" width="250"><img src="/readMeAssets/Screenshot2.jpg" width="250"><img src="/readMeAssets/Screenshot3.jpg" width="250"><img src="/readMeAssets/Screenshot4.jpg" width="250">
 
 
