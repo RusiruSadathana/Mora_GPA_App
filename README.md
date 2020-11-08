@@ -3,11 +3,15 @@
 
 Mora GPA is a simple app for engineering undergraduates of University of Moratuwa to keep track of their GPA.
 
-<img src="/readMeAssets/Screen-Recording.gif" width="250">
-
 The app is available on google play store and you can get the app from [HERE](https://play.google.com/store/apps/details?id=avishka.moragpa).
 
 Simply you need to add modules for each semester and the app will calculate the GPA for you, of course without the need of the internet. The app will calculate the current grade point average (CGPA) as well as the semester grade point averages (SGPA). You can view the modules under a semester by tapping on the SGPA card.
+
+## Screenshots and Recordings
+
+<img src="/readMeAssets/Screen-Recording.gif" width="250"><img src="/readMeAssets/Screenshot1.png" width="250"><img src="/readMeAssets/Screenshot2.png" width="250"><img src="/readMeAssets/Screenshot3.png" width="250"><img src="/readMeAssets/Screenshot4.png" width="250">
+
+
 
 ## Features
 
@@ -62,6 +66,8 @@ The Current Grade Point Average (CGPA) describes a student's current standing in
 
 You can download the production version of the app from [HERE](https://play.google.com/store/apps/details?id=avishka.moragpa).
 Enjoy the app and do not forget to rate the app :)
+
+<img src="/readMeAssets/Banner.png" width="300">
 
 
 
