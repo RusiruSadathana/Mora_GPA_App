@@ -3,7 +3,7 @@
 
 Mora GPA is a simple app for engineering undergraduates of University of Moratuwa to keep track of their GPA.
 
-![GIF](./readMeAssets/Screen-Recording.gif = 73x160)
+![GIF](./readMeAssets/Screen-Recording.gif | width=50)
 
 The app is available on google play store and you can get the app from [HERE](https://play.google.com/store/apps/details?id=avishka.moragpa).
 
