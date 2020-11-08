@@ -9,7 +9,8 @@ Simply you need to add modules for each semester and the app will calculate the 
 
 ## Screenshots and Recordings
 
-<img src="/readMeAssets/Screen-Recording.gif" width="250"><img src="/readMeAssets/Screenshot1.jpg" width="250"><img src="/readMeAssets/Screenshot2.jpg" width="250"><img src="/readMeAssets/Screenshot4.jpg" width="250">
+<img src="/readMeAssets/Screen-Recording.gif" width="250">
+<img src="/readMeAssets/Screenshot1.jpg" width="250"><img src="/readMeAssets/Screenshot2.jpg" width="250"><img src="/readMeAssets/Screenshot3.jpg" width="250"><img src="/readMeAssets/Screenshot4.jpg" width="250">
 
 
 
