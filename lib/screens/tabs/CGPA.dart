@@ -31,7 +31,7 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 1500),
     );
-    animation = Tween(begin: 0.0, end: (cgpa / 4.2).toDouble()).animate(
+    animation = Tween(begin: 0.0, end: (cgpa / 4.0).toDouble()).animate(
       CurvedAnimation(
         parent: animController,
         curve: Curves.easeOut,
@@ -85,9 +85,9 @@ class _CGPAState extends State<CGPA> with SingleTickerProviderStateMixin {
                         ),
                         Center(
                           child: CircularCard(
-                            currentValue: animation.value * 4.2,
-                            maxValue: 4.2,
-                            title: 'out of 4.20',
+                            currentValue: animation.value * 4.0,
+                            maxValue: 4.0,
+                            title: 'out of 4.00',
                           ),
                         ),
                         SizedBox(

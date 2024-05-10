@@ -34,7 +34,7 @@ The Current Grade Point Average (CGPA) describes a student's current standing in
 #### Grade Point System
 | Grade | Grade Point |
 | ----- | ----------- |
-|A+| 4.2 |
+|A+| 4.0 |
 |A|	4.0|
 |A-|3.7|
 |B+|3.3|
@@ -42,7 +42,7 @@ The Current Grade Point Average (CGPA) describes a student's current standing in
 |B-|2.7|
 |C+|2.3|
 |C|2.0|
-|C-|1.5|
+|C-|1.7|
 |D|1.0|
 |OTHERS|0.0|
 
