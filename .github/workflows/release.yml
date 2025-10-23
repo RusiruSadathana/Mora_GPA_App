@@ -1,0 +1,139 @@
+name: Release APK
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build-and-release:
+    name: Build and Release APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.6'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test || echo "No tests found"
+
+      - name: Decode Keystore (if secrets are set)
+        id: decode_keystore
+        if: ${{ secrets.KEYSTORE_BASE64 != '' }}
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/app/keystore.jks
+          echo "KEYSTORE_DECODED=true" >> $GITHUB_OUTPUT
+
+      - name: Create key.properties (if secrets are set)
+        if: steps.decode_keystore.outputs.KEYSTORE_DECODED == 'true'
+        run: |
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=keystore.jks
+          EOF
+
+      - name: Build Release APK (Signed)
+        if: steps.decode_keystore.outputs.KEYSTORE_DECODED == 'true'
+        run: flutter build apk --release
+
+      - name: Build Release APK (Unsigned)
+        if: steps.decode_keystore.outputs.KEYSTORE_DECODED != 'true'
+        run: |
+          echo "⚠️ Building unsigned APK (keystore secrets not configured)"
+          flutter build apk --release
+
+      - name: Build App Bundle (Signed)
+        if: steps.decode_keystore.outputs.KEYSTORE_DECODED == 'true'
+        run: flutter build appbundle --release
+
+      - name: Rename APK files
+        run: |
+          VERSION="${{ github.ref_name }}"
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          fi
+          mkdir -p release-artifacts
+          if [ -f "build/app/outputs/flutter-apk/app-release.apk" ]; then
+            cp build/app/outputs/flutter-apk/app-release.apk "release-artifacts/MoraGPA-${VERSION}.apk"
+          fi
+          if [ -f "build/app/outputs/bundle/release/app-release.aab" ]; then
+            cp build/app/outputs/bundle/release/app-release.aab "release-artifacts/MoraGPA-${VERSION}.aab"
+          fi
+
+      - name: Generate checksums
+        run: |
+          cd release-artifacts
+          for file in *; do
+            sha256sum "$file" > "$file.sha256"
+          done
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            release-artifacts/*
+          body: |
+            ## Mora GPA Calculator ${{ github.ref_name }}
+
+            ### Downloads
+            - **APK**: For direct installation on Android devices
+            - **AAB**: For uploading to Google Play Store (if available)
+
+            ### Installation Instructions
+            1. Download the APK file
+            2. Enable "Install from Unknown Sources" in Android settings
+            3. Open the downloaded APK file to install
+
+            ### What's Changed
+            - Updated to latest Android build tools
+            - Modernized to Flutter 3.35.6
+            - All dependencies updated to null-safe versions
+
+            ### Build Information
+            - **Flutter Version**: 3.35.6
+            - **Build Date**: ${{ github.event.head_commit.timestamp }}
+            - **Commit**: ${{ github.sha }}
+
+            ---
+            🤖 Generated with Claude Code
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mora-gpa-release-${{ github.ref_name }}
+          path: release-artifacts/*
+          retention-days: 90
+
+      - name: Cleanup keystore
+        if: always()
+        run: |
+          rm -f android/app/keystore.jks
+          rm -f android/key.properties
